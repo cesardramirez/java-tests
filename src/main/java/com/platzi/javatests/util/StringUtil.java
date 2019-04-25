@@ -6,7 +6,7 @@ public class StringUtil {
         StringBuilder result = new StringBuilder();
 
         // Se debe eliminar el = para que los test funcionen.
-        for (int i = 0; i <= times; i++) {
+        for (int i = 0; i < times; i++) {
             result.append(str);
         }
 
