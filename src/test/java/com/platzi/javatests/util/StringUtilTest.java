@@ -2,7 +2,7 @@ package com.platzi.javatests.util;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class StringUtilTest {
 
@@ -24,5 +24,25 @@ public class StringUtilTest {
     @Test(expected = IllegalArgumentException.class)
     public void testRepeatStringNegativeTimes() {
         StringUtil.repeat("hola", -1);
+    }
+
+    @Test
+    public void testIsEmpty_whenStringIsNotEmpty() {
+        assertFalse(StringUtil.isEmpty("abc"));
+    }
+
+    @Test
+    public void testIsEmpty_whenStringIsOnlyBrackets() {
+        assertTrue(StringUtil.isEmpty(""));
+    }
+
+    @Test
+    public void testIsEmpty_whenStringIsNull() {
+        assertTrue(StringUtil.isEmpty(null));
+    }
+
+    @Test
+    public void testIsEmpty_whenStringIsOnlyWithEmptySpaces() {
+        assertTrue(StringUtil.isEmpty("   "));
     }
 }

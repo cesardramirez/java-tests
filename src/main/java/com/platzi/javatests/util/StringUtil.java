@@ -16,4 +16,10 @@ public class StringUtil {
 
         return result.toString();
     }
+
+    public static boolean isEmpty(String str) {
+        return str == null || str.trim().length() <= 0;
+//        return str == null || str.trim().isEmpty();
+//        return str == null || str.trim().equals("");
+    }
 }
