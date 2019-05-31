@@ -47,8 +47,18 @@ public class MovieServiceShould {
     public void returnMoviesByGenre() {
 //        MovieRepository movieRepository = Mockito.mock(MovieRepository.class);
         Collection<Movie> movies = movieService.findMoviesByGenre(COMEDY);
-        List<Integer> movieIds = movies.stream().map(Movie::getId).collect(Collectors.toList());
 
-        assertThat(movieIds, is(Arrays.asList(3, 6)));
+        assertThat(getMovieIds(movies), is(Arrays.asList(3, 6)));
+    }
+
+    @Test
+    public void returnMoviesByDuration() {
+        Collection<Movie> movies = movieService.findMoviesByDuration(112);
+
+        assertThat(getMovieIds(movies), is(Arrays.asList(4, 5, 6)));
+    }
+
+    private List<Integer> getMovieIds(Collection<Movie> movies) {
+        return movies.stream().map(Movie::getId).collect(Collectors.toList());
     }
 }
