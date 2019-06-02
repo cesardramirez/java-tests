@@ -1,6 +1,7 @@
 package com.platzi.javatests.movies.data;
 
 import com.platzi.javatests.movies.model.Movie;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.datasource.init.ScriptUtils;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -26,20 +28,28 @@ import static org.junit.Assert.assertThat;
 public class MovieRepositoryIntegrationTest {
 
     @InjectMocks
-    MovieRepositoryJdbc movieRepository;
+    private MovieRepositoryJdbc movieRepository;
 
     @Mock
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+
+    private DataSource dataSource;
 
     @Before
     public void setUp() throws SQLException {
         // Database in-memory.
-        DataSource dataSource = new DriverManagerDataSource("jdbc:h2:mem:test;MODE=MYSQL", "sa", "sa");
+        dataSource = new DriverManagerDataSource("jdbc:h2:mem:test;MODE=MYSQL", "sa", "sa");
         jdbcTemplate = new JdbcTemplate(dataSource);
         movieRepository = new MovieRepositoryJdbc(jdbcTemplate);
 
         // Insert test data into the in-memory database.
         ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("sql-scripts/test-data.sql"));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        final Statement s = dataSource.getConnection().createStatement();
+        s.execute("DROP ALL objects DELETE files");
     }
 
     @Test
@@ -51,5 +61,12 @@ public class MovieRepositoryIntegrationTest {
             new Movie(2, "Memento", 113, THRILLER),
             new Movie(3, "Matrix", 136, ACTION)
         )));
+    }
+
+    @Test
+    public void loadMovieById() {
+        Movie movie = movieRepository.findById(2);
+
+        assertThat(movie, is(new Movie(2, "Memento", 113, THRILLER)));
     }
 }

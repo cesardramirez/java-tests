@@ -10,6 +10,7 @@ import java.util.Collection;
 public class MovieRepositoryJdbc implements MovieRepository {
 
     private JdbcTemplate jdbcTemplate;
+    // movieMapper: transforms data from a database to a java object.
     private static RowMapper<Movie> movieMapper = (rs, rowNum) ->
         new Movie(
             rs.getInt("id"),
@@ -24,7 +25,10 @@ public class MovieRepositoryJdbc implements MovieRepository {
 
     @Override
     public Movie findById(long id) {
-        return null;
+        // args : list of arguments for sql query.
+        Object[] args = { id };
+        // queryForObject() : get a single object.
+        return jdbcTemplate.queryForObject("SELECT * FROM movies WHERE id = ?", args, movieMapper);
     }
 
     @Override
