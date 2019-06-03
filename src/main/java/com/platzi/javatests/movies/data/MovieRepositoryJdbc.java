@@ -26,9 +26,15 @@ public class MovieRepositoryJdbc implements MovieRepository {
     @Override
     public Movie findById(long id) {
         // args : list of arguments for sql query.
-        Object[] args = { id };
+        Object[] args = {id};
         // queryForObject() : get a single object.
         return jdbcTemplate.queryForObject("SELECT * FROM movies WHERE id = ?", args, movieMapper);
+    }
+
+    @Override
+    public Collection<Movie> findByName(String name) {
+        String[] args = {"%" + name.toLowerCase() + "%"};
+        return jdbcTemplate.query("SELECT * FROM movies WHERE LOWER(name) LIKE ?", args, movieMapper);
     }
 
     @Override

@@ -24,14 +24,14 @@ import static org.mockito.Mockito.when;
 public class MovieServiceShould {
 
     @InjectMocks
-    MovieService movieService;
+    MovieServiceImpl movieService;
 
     @Mock
     MovieRepository movieRepository;
 
     @Before
     public void setUp() {
-        movieService = new MovieService(movieRepository);
+        movieService = new MovieServiceImpl(movieRepository);
         when(movieRepository.findAll()).thenReturn(Arrays.asList(
                 new Movie(1, "Dark Knight", 152, ACTION),
                 new Movie(2, "Memento", 113, THRILLER),
@@ -39,7 +39,8 @@ public class MovieServiceShould {
                 new Movie(4, "Super 8", 112, THRILLER),
                 new Movie(5, "Scream", 111, HORROR),
                 new Movie(6, "Home Alone", 103, COMEDY),
-                new Movie(7, "Matrix", 136, ACTION)
+                new Movie(7, "Matrix", 136, ACTION),
+                new Movie(8, "Superman", 169, ACTION)
         ));
     }
 
@@ -56,6 +57,13 @@ public class MovieServiceShould {
         Collection<Movie> movies = movieService.findMoviesByDuration(112);
 
         assertThat(getMovieIds(movies), is(Arrays.asList(4, 5, 6)));
+    }
+
+    @Test
+    public void returnMoviesByName() {
+        Collection<Movie> movies = movieService.findMoviesByName("Super");
+
+        assertThat(getMovieIds(movies), is(Arrays.asList(4, 8)));
     }
 
     private List<Integer> getMovieIds(Collection<Movie> movies) {

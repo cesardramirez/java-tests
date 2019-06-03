@@ -1,30 +1,15 @@
 package com.platzi.javatests.movies.service;
 
-import com.platzi.javatests.movies.data.MovieRepository;
 import com.platzi.javatests.movies.model.Genre;
 import com.platzi.javatests.movies.model.Movie;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
-/**
- * In 'service', business classes are defined.
- */
-public class MovieService {
+public interface MovieService {
 
-    private MovieRepository movieRepository;
+    Collection<Movie> findMoviesByGenre(Genre genre);
 
-    public MovieService(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
+    Collection<Movie> findMoviesByDuration(int length);
 
-    public Collection<Movie> findMoviesByGenre(Genre genre) {
-        return movieRepository.findAll().stream()
-                .filter(movie -> movie.getGenre() == genre).collect(Collectors.toList());
-    }
-
-    public Collection<Movie> findMoviesByDuration(int length) {
-        return movieRepository.findAll().stream()
-                .filter(movie -> movie.getMinutes() <= length).collect(Collectors.toList());
-    }
+    Collection<Movie> findMoviesByName(String name);
 }

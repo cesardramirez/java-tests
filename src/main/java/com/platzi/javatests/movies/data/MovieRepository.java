@@ -11,6 +11,8 @@ public interface MovieRepository {
 
     Movie findById(long id);
 
+    Collection<Movie> findByName(String name);
+
     Collection<Movie> findAll();
 
     void saveOrUpdate(Movie movie);
