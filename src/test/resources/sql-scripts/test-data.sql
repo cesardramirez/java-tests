@@ -2,12 +2,13 @@ CREATE TABLE IF NOT EXISTS movies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     minutes INT NOT NULL,
-    genre VARCHAR(50) NOT NULL
+    genre VARCHAR(50) NOT NULL,
+    director VARCHAR(50) NOT NULL
 );
 
-INSERT INTO movies (name, minutes, genre) VALUES
-    ('Dark Knight', 152, 'ACTION'),
-    ('Memento', 113, 'THRILLER'),
-    ('Matrix', 136, 'ACTION'),
-    ('Super 8', 112, 'THRILLER'),
-    ('Superman', 169, 'ACTION');
+INSERT INTO movies (name, minutes, genre, director) VALUES
+    ('Dark Knight', 152, 'ACTION', 'Christopher Nolan'),
+    ('Memento', 113, 'THRILLER', 'Christopher Nolan'),
+    ('Matrix', 136, 'ACTION', 'Lana y Lilly Wachowski'),
+    ('Super 8', 112, 'THRILLER', 'JJ Abrams'),
+    ('Superman', 169, 'ACTION', 'Richard Donner');

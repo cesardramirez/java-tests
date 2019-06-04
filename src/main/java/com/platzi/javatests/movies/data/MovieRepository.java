@@ -13,6 +13,8 @@ public interface MovieRepository {
 
     Collection<Movie> findByName(String name);
 
+    Collection<Movie> findByDirector(String name);
+
     Collection<Movie> findAll();
 
     void saveOrUpdate(Movie movie);

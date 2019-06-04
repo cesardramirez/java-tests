@@ -33,14 +33,14 @@ public class MovieServiceShould {
     public void setUp() {
         movieService = new MovieServiceImpl(movieRepository);
         when(movieRepository.findAll()).thenReturn(Arrays.asList(
-                new Movie(1, "Dark Knight", 152, ACTION),
-                new Movie(2, "Memento", 113, THRILLER),
-                new Movie(3, "There's Something About Mary", 119, COMEDY),
-                new Movie(4, "Super 8", 112, THRILLER),
-                new Movie(5, "Scream", 111, HORROR),
-                new Movie(6, "Home Alone", 103, COMEDY),
-                new Movie(7, "Matrix", 136, ACTION),
-                new Movie(8, "Superman", 169, ACTION)
+                new Movie(1, "Dark Knight", 152, ACTION, "Christopher Nolan"),
+                new Movie(2, "Memento", 113, THRILLER, "Christopher Nolan"),
+                new Movie(3, "There's Something About Mary", 119, COMEDY, "Peter y Bobby Farrelly"),
+                new Movie(4, "Super 8", 112, THRILLER, "JJ Abrams"),
+                new Movie(5, "Scream", 111, HORROR, "Wes Craven"),
+                new Movie(6, "Home Alone", 103, COMEDY, "Chris Columbus"),
+                new Movie(7, "Matrix", 136, ACTION, "Lana y Lilly Wachowski"),
+                new Movie(8, "Superman", 169, ACTION, "Richard Donner")
         ));
     }
 
@@ -64,6 +64,13 @@ public class MovieServiceShould {
         Collection<Movie> movies = movieService.findMoviesByName("Super");
 
         assertThat(getMovieIds(movies), is(Arrays.asList(4, 8)));
+    }
+
+    @Test
+    public void returnMoviesByDirector() {
+        Collection<Movie> movies = movieService.findMoviesByDirector("Nolan");
+
+        assertThat(getMovieIds(movies), is(Arrays.asList(1, 2)));
     }
 
     private List<Integer> getMovieIds(Collection<Movie> movies) {

@@ -12,4 +12,6 @@ public interface MovieService {
     Collection<Movie> findMoviesByDuration(int length);
 
     Collection<Movie> findMoviesByName(String name);
+
+    Collection<Movie> findMoviesByDirector(String director);
 }

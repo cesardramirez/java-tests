@@ -16,8 +16,8 @@ public class MovieRepositoryJdbc implements MovieRepository {
             rs.getInt("id"),
             rs.getString("name"),
             rs.getInt("minutes"),
-            Genre.valueOf(rs.getString("genre"))
-        );
+            Genre.valueOf(rs.getString("genre")),
+            rs.getString("director"));
 
     public MovieRepositoryJdbc(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -35,6 +35,12 @@ public class MovieRepositoryJdbc implements MovieRepository {
     public Collection<Movie> findByName(String name) {
         String[] args = {"%" + name.toLowerCase() + "%"};
         return jdbcTemplate.query("SELECT * FROM movies WHERE LOWER(name) LIKE ?", args, movieMapper);
+    }
+
+    @Override
+    public Collection<Movie> findByDirector(String director) {
+        String[] args = {"%" + director.toLowerCase() + "%"};
+        return jdbcTemplate.query("SELECT * FROM movies WHERE LOWER(director) LIKE ?", args, movieMapper);
     }
 
     @Override
