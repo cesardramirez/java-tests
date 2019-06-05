@@ -14,4 +14,6 @@ public interface MovieService {
     Collection<Movie> findMoviesByName(String name);
 
     Collection<Movie> findMoviesByDirector(String director);
+
+    Collection<Movie> findMoviesByTemplate(Movie template);
 }

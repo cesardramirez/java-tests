@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,66 @@ public class MovieServiceShould {
     @Test
     public void returnMoviesByDirector() {
         Collection<Movie> movies = movieService.findMoviesByDirector("Nolan");
+
+        assertThat(getMovieIds(movies), is(Arrays.asList(1, 2)));
+    }
+
+    @Test
+    public void returnMoviesByMovieTemplateWithDurationAndGenre() {
+        Collection<Movie> movies =
+            movieService.findMoviesByTemplate(
+                new Movie(null, 152, ACTION, null)
+            );
+
+        assertThat(getMovieIds(movies), is(Arrays.asList(1, 7)));
+    }
+
+    @Test
+    public void returnMoviesByMovieTemplateWithNameAndDuration() {
+        Collection<Movie> movies =
+            movieService.findMoviesByTemplate(
+                new Movie("Super 8", 112, null, null)
+            );
+
+        assertThat(getMovieIds(movies), is(Collections.singletonList(4)));
+    }
+
+    @Test
+    public void returnMoviesByMovieTemplateWithNameAndGenre() {
+        Collection<Movie> movies =
+            movieService.findMoviesByTemplate(
+                    new Movie("Super 8", null, THRILLER, null)
+            );
+
+        assertThat(getMovieIds(movies), is(Collections.singletonList(4)));
+    }
+
+    @Test
+    public void returnMoviesByMovieTemplateWithNameAndGenreAndDuration() {
+        Collection<Movie> movies =
+            movieService.findMoviesByTemplate(
+                    new Movie("memento", 113, THRILLER, null)
+            );
+
+        assertThat(getMovieIds(movies), is(Collections.singletonList(2)));
+    }
+
+    @Test
+    public void returnMoviesByMovieTemplateWithDirector() {
+        Collection<Movie> movies =
+            movieService.findMoviesByTemplate(
+                new Movie(null, null, null, "nolan")
+            );
+
+        assertThat(getMovieIds(movies), is(Arrays.asList(1, 2)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void returnError_whenDurationIsNegative() {
+        Collection<Movie> movies =
+            movieService.findMoviesByTemplate(
+                new Movie(null, -120, null, null)
+            );
 
         assertThat(getMovieIds(movies), is(Arrays.asList(1, 2)));
     }
